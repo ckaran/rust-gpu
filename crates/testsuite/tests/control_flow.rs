@@ -1,4 +1,4 @@
-use super::val;
+use testsuite::val;
 
 #[test]
 fn cf_while() {

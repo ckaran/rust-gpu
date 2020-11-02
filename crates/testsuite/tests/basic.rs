@@ -1,4 +1,4 @@
-use super::{dis_fn, val};
+use testsuite::{dis_fn, val};
 
 #[test]
 fn hello_world() {

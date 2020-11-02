@@ -1,6 +1,3 @@
-mod basic;
-mod control_flow;
-
 use lazy_static::lazy_static;
 use rustc_codegen_spirv::rspirv;
 use std::error::Error;
@@ -74,7 +71,7 @@ fn setup(src: &str) -> Result<PathBuf, Box<dyn Error>> {
 
 fn build(src: &str) -> PathBuf {
     let project = setup(src).expect("Failed to set up project");
-    crate::SpirvBuilder::new(&project)
+    spirv_builder::SpirvBuilder::new(&project)
         .print_metadata(false)
         .build()
         .expect("Failed to build test")
@@ -87,7 +84,7 @@ fn read_module(path: &Path) -> Result<rspirv::dr::Module, Box<dyn Error>> {
     Ok(loader.module())
 }
 
-fn val(src: &str) {
+pub fn val(src: &str) {
     let _lock = global_lock();
     // spirv-val is included in building
     build(src);
@@ -109,7 +106,7 @@ fn assert_str_eq(expected: &str, result: &str) {
     pretty_assertions::assert_eq!(PrettyString(&expected), PrettyString(&result))
 }
 
-fn dis_fn(src: &str, func: &str, expect: &str) {
+pub fn dis_fn(src: &str, func: &str, expect: &str) {
     let _lock = global_lock();
     let module = read_module(&build(src)).unwrap();
     let id = module
